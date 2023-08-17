@@ -76,6 +76,8 @@ const useStyles = createStyles( ( theme ) => ({
 		
 		[theme.fn.smallerThan( 'md' )] : {
 			transform : 'translateY(120px)',
+			padding   : `calc(${ theme.spacing.sm } * 2) ${ theme.spacing.md }`,
+			gap       : `calc(${ theme.spacing.md } * 2)`,
 		},
 	},
 	
@@ -84,8 +86,9 @@ const useStyles = createStyles( ( theme ) => ({
 		marginBottom : `calc(${ theme.spacing.md } * 2)`,
 		
 		[theme.fn.smallerThan( 'sm' )] : {
-			maxWidth : '100%',
-			fontSize : theme.headings.sizes.h3.fontSize,
+			maxWidth     : '100%',
+			fontSize     : theme.headings.sizes.h3.fontSize,
+			marginBottom : `${ theme.spacing.md }`,
 		},
 	},
 	
@@ -104,6 +107,10 @@ const useStyles = createStyles( ( theme ) => ({
 		marginTop : `calc(${ theme.spacing.md } * 2)`,
 		gap       : theme.spacing.md,
 		display   : "grid",
+		
+		[theme.fn.smallerThan( 'sm' )] : {
+			marginTop : theme.spacing.md,
+		},
 	},
 	
 	itemText : {
@@ -122,7 +129,8 @@ const useStyles = createStyles( ( theme ) => ({
 	},
 	
 	listItem : {
-		gap : `calc(${ theme.spacing.md } / 2)`,
+		gap        : `calc(${ theme.spacing.md } / 2)`,
+		alignItems : 'flex-start'
 	},
 	
 	item_icon : {
@@ -142,6 +150,7 @@ const useStyles = createStyles( ( theme ) => ({
 			color      : theme.colors.white,
 			fontSize   : theme.fontSizes.lg,
 			fontWeight : 600,
+			margin     : '0 0 5px',
 			
 			[theme.fn.smallerThan( 'sm' )] : {
 				fontSize : theme.fontSizes.md,
@@ -157,6 +166,22 @@ const useStyles = createStyles( ( theme ) => ({
 			},
 		},
 		
+	},
+	
+	inputsWrap : {
+		[theme.fn.smallerThan( 'sm' )] : {
+			gap : 0,
+		},
+	},
+	
+	inputWrap : {
+		[theme.fn.smallerThan( 'sm' )] : {
+			marginBottom : `calc(${ theme.spacing.md } / 2)`,
+			
+			'&:nth-child(even)':{
+				marginBottom : theme.spacing.md,
+			},
+		},
 	},
 	
 	fieldInput : {
@@ -249,12 +274,14 @@ export default function RequestQuoteBlock( {
 			type        : 'select',
 			name        : 'select1',
 			className   : `${ classes.fieldInput }`,
+			label       : 'Typ av kund',
 			placeholder : 'Typ av kund',
 		},
 		{
 			type        : 'select',
 			name        : 'select2',
 			className   : `${ classes.fieldInput }`,
+			label       : 'När ska uppdraget utföras  ',
 			placeholder : 'När ska uppdraget utföras',
 		},
 		{
@@ -382,7 +409,7 @@ export default function RequestQuoteBlock( {
 					<Box>
 						<form className={ classes.form } onSubmit={ handleSubmit }>
 							<div className={ classes.fields }>
-								<SimpleGrid cols={ 2 } breakpoints={ [
+								<SimpleGrid className={ classes.inputsWrap } cols={ 2 } breakpoints={ [
 									{
 										maxWidth : 'sm',
 										cols     : 1
@@ -392,7 +419,7 @@ export default function RequestQuoteBlock( {
 										finalFormsFields?.map( ( input, index: number ) => {
 											const isLastElement = index === finalFormsFields.length - 1;
 											return (
-												<div key={ index } style={ { gridColumn : isLastElement ? '1 / -1' : 'auto' } }>
+												<div key={ index } className={classes.inputWrap} style={ { gridColumn : isLastElement ? '1 / -1' : 'auto' } }>
 													<InputForms data={ input } form={ form }/>
 												</div>
 											)
