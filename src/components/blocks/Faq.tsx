@@ -1,6 +1,6 @@
 'use client'
 
-import { createStyles, Container, Title, Text, rem, Accordion, } from '@mantine/core';
+import { createStyles, Container, Title, Text, rem, Accordion, SimpleGrid, } from '@mantine/core';
 import React from "react";
 import CustomButton from "@/components/Button";
 
@@ -44,8 +44,7 @@ const useStyles = createStyles( ( theme ) => ({
 	},
 	
 	inner : {
-		display        : 'flex',
-		justifyContent : 'space-between',
+		gap     : `calc(${ theme.spacing.md } * 2)`,
 		
 		[theme.fn.smallerThan( 'md' )] : {
 			flexDirection : 'column'
@@ -113,7 +112,12 @@ const Faq = ( {
 	return (
 		<div className={ `${ classes.faq }` }>
 			<Container size="xl">
-				<div className={ classes.inner }>
+				<SimpleGrid cols={ 2 } className={ classes.inner } breakpoints={ [
+					{
+						maxWidth : 'md',
+						cols     : 1
+					}
+				] }>
 					<div className={ classes.content }>
 						{ faq_title && <Title order={ 3 } className={ classes.title }>{ faq_title }</Title> }
 						{ faq_desc && <Text className={ classes.desc } mt="md">{ faq_desc }</Text> }
@@ -165,7 +169,7 @@ const Faq = ( {
 							} )
 						}
 					</Accordion>
-				</div>
+				</SimpleGrid>
 			</Container>
 		</div>
 	);

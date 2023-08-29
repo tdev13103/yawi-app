@@ -55,32 +55,49 @@ interface ThemeSettings {
 	}
 	formsSettings: {
 		formName: string;
-		formId: string;
+		formId: string | number;
 		fields: {
 			fieldId: string;
 			name: string;
 		}[]
 	}[]
-	instagram : string
+	instagram: string
+}
+
+interface GravityFormsProps {
+	formFields: {
+		nodes: {
+			choices: {
+				text: string;
+				value: string;
+			}[]
+			id: number
+		}[]
+	}
+	formId: number
+	title: string
 }
 
 interface ThemeContextProps {
 	themeSettings: ThemeSettings;
 	setThemeSettings: Dispatch<SetStateAction<ThemeSettings>>;
+	gravityForms: GravityFormsProps[];
 }
 
 const ThemeContext = createContext<ThemeContextProps>( {} as ThemeContextProps );
 
 export const ThemeContextProvider = ( {
 	children,
-	value
-}: { children: React.ReactNode, value: any } ) => {
+	value,
+	gravityForms
+}: { children: React.ReactNode, value: any, gravityForms: GravityFormsProps[] } ) => {
 	const [themeSettings, setThemeSettings] = useState( value );
 	
 	return (
 		<ThemeContext.Provider value={ {
 			themeSettings,
-			setThemeSettings
+			setThemeSettings,
+			gravityForms
 		} }>
 			{ children }
 		</ThemeContext.Provider>

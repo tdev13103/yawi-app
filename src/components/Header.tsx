@@ -55,6 +55,7 @@ const useStyles = createStyles( ( theme ) => ({
 		[theme.fn.smallerThan( 'md' )] : {
 			width          : '100%',
 			justifyContent : 'space-between',
+			flexWrap       : 'nowrap'
 		},
 	},
 	
@@ -93,8 +94,8 @@ const useStyles = createStyles( ( theme ) => ({
 		
 		'.scrolled &, .not-found &' : {
 			'&:hover, &.active' : {
-				color   : theme.colors.main,
-				backgroundColor: theme.colors.gray  ,
+				color           : theme.colors.main,
+				backgroundColor : theme.colors.gray,
 			}
 		},
 		
@@ -102,32 +103,32 @@ const useStyles = createStyles( ( theme ) => ({
 			color : theme.colors.main,
 			
 			'&:hover, &.active' : {
-				backgroundColor: theme.colors.gray,
+				backgroundColor : theme.colors.gray,
 			}
 		},
 		
 		'.blog.scrolled &' : {
 			'&:hover, &.active' : {
-				backgroundColor: theme.colors.gray1,
+				backgroundColor : theme.colors.gray1,
 			}
 		},
 		
-		'.blog.open &'     : {
+		'.blog.open &' : {
 			color : theme.colors.gray,
 		},
 		
-		'&.child': {
+		'&.child' : {
 			'&:hover' : {
-				color : theme.colors.main,
-				backgroundColor: theme.colors.gray,
+				color           : theme.colors.main,
+				backgroundColor : theme.colors.gray,
 			},
 			
 			'.blog &' : {
 				color : theme.colors.gray,
 				
 				'&:hover, &.active' : {
-					color : theme.colors.main,
-					backgroundColor: theme.colors.gray,
+					color           : theme.colors.main,
+					backgroundColor : theme.colors.gray,
 				}
 			},
 		},
@@ -137,13 +138,13 @@ const useStyles = createStyles( ( theme ) => ({
 			padding  : `${ rem( 10 ) } ${ rem( 12 ) }`,
 			
 			'&:hover, &.active' : {
-				backgroundColor: theme.colors.main,
+				backgroundColor : theme.colors.main,
 			},
 		},
 	},
 	
-	childLink: {
-		padding: 0
+	childLink : {
+		padding : 0
 	},
 	
 	linkLabel : {
@@ -259,7 +260,7 @@ export function HeaderAction( { links }: HeaderActionProps ) {
 	}, [isMenuOpen] );
 	
 	useEffect( () => {
-		document.body.classList.remove('not-found');
+		document.body.classList.remove( 'not-found' );
 	}, [pathname] );
 	
 	const renderMobileLinks = ( links: HeaderLink[] ) => {
@@ -299,8 +300,8 @@ export function HeaderAction( { links }: HeaderActionProps ) {
 		const modifyLink = modifyLinks( link?.link );
 		const isActive = pathname.startsWith( modifyLink )
 		const menuItems = link?.links?.map( ( item, key: number ) => (
-			<Menu.Item key={ key } className={classes.childLink}>
-				<Link href={ modifyLinks( item?.link ) } className={ `${classes.link } child`}>
+			<Menu.Item key={ key } className={ classes.childLink }>
+				<Link href={ modifyLinks( item?.link ) } className={ `${ classes.link } child` }>
 					{ item.label }
 				</Link>
 			</Menu.Item>
@@ -340,7 +341,7 @@ export function HeaderAction( { links }: HeaderActionProps ) {
 					{
 						logo?.sourceUrl &&
             <Link href={ '/' }>
-              <Image src={ logo?.sourceUrl } alt={ logo?.title }/>
+              <Image src={ logo?.sourceUrl } alt={ logo?.title } width={ 110 } height={ 50 }/>
             </Link>
 					}
 					{ isMobile && (

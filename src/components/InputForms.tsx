@@ -11,6 +11,10 @@ interface FormFields {
 	type: string,
 	name?: string,
 	newName?: string,
+	options?: {
+		label: string;
+		value: string;
+	}[]
 	className: string,
 	label?: string,
 	placeholder?: string,
@@ -43,7 +47,7 @@ const InputForms = ( {
 					label={ param?.label }
 					name={ param?.newName }
 					withinPortal
-					data={ ['React', 'Angular', 'Svelte', 'Vue'] }
+					data={ param?.options ?? [] }
 					size="lg"
 					rightSection={ <SelectIcon/> }
 					searchable

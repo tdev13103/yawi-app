@@ -45,6 +45,8 @@ const useStyles = createStyles( ( theme ) => ({
 		paddingBottom      : `calc(${ theme.spacing.lg } * 10)`,
 		backgroundColor    : theme.colors.gray1,
 		color              : theme.colors.gray,
+		maxHeight          : rem( 755 ),
+		minHeight          : rem( 755 ),
 		
 		'&.blog' : {
 			color         : theme.colors.main,
@@ -58,6 +60,7 @@ const useStyles = createStyles( ( theme ) => ({
 		[theme.fn.smallerThan( 'md' )] : {
 			paddingTop    : `calc(${ theme.spacing.lg } * 8)`,
 			paddingBottom : `calc(${ theme.spacing.lg } * 2)`,
+			minHeight     : 0,
 		},
 	},
 	

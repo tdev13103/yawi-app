@@ -7,6 +7,7 @@ import { FooterAction } from "@/components/Footer";
 import { Outfit } from 'next/font/google'
 import React from "react";
 import '../../public/global.css'
+import { gravityFormsSettings } from "@/lib/gravityFormsOptions";
 
 export const revalidate = 5;
 
@@ -23,11 +24,13 @@ export default async function RootLayout( { children }: { children: React.ReactN
 	
 	const menuProps = await menuSettings();
 	const theme = await themeSettings();
+	const gravityForms = await gravityFormsSettings();
+	
 	return (
 		<html lang="en-US" className={ poppins.className }>
 		<head></head>
 		<body style={ { backgroundColor : '#E5EFEF' } }>
-		<ThemeContextProvider value={ theme }>
+		<ThemeContextProvider value={ theme } gravityForms={ gravityForms }>
 			<RootStyleRegistry>
 				<HeaderAction links={ menuProps['header-menu'] }/>
 				{ children }

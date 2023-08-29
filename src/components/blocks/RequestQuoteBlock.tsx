@@ -1,15 +1,6 @@
 'use client'
 
-import {
-	createStyles,
-	Container,
-	Title,
-	Text,
-	rem,
-	Group,
-	Box,
-	SimpleGrid,
-} from '@mantine/core';
+import { Box, Container, createStyles, Group, rem, SimpleGrid, Text, Title, } from '@mantine/core';
 import React, { useEffect, useState } from "react";
 import Svg from "@/components/Svg";
 import CustomButton from "@/components/Button";
@@ -48,9 +39,14 @@ interface ButtonProps {
 interface FormFields {
 	type: string,
 	name?: string,
+	newName?: string;
 	className: string,
 	label?: string,
 	placeholder?: string,
+	options?: {
+		label: string;
+		value: string;
+	}[]
 }
 
 const useStyles = createStyles( ( theme ) => ({
@@ -178,7 +174,7 @@ const useStyles = createStyles( ( theme ) => ({
 		[theme.fn.smallerThan( 'sm' )] : {
 			marginBottom : `calc(${ theme.spacing.md } / 2)`,
 			
-			'&:nth-child(even)':{
+			'&:nth-child(even)' : {
 				marginBottom : theme.spacing.md,
 			},
 		},
@@ -226,21 +222,25 @@ export default function RequestQuoteBlock( {
 	}
 }: RequestQuoteBlockProps ) {
 	const { classes } = useStyles();
-	const { themeSettings : { formsSettings } } = useThemeContext();
+	const {
+		themeSettings : { formsSettings },
+		gravityForms
+	} = useThemeContext();
+	
 	const inputs = [
 		{
 			type        : 'text',
 			name        : 'name',
 			className   : `${ classes.fieldInput }`,
 			label       : 'Namn',
-			placeholder : 'Tony Lip',
+			placeholder : 'Ditt namn',
 		},
 		{
 			type        : 'number',
 			name        : 'phone',
 			className   : `${ classes.fieldInput }`,
 			label       : 'Telefon',
-			placeholder : 'Input',
+			placeholder : 'Ditt telefonnummer',
 		},
 		{
 			type        : 'text',
@@ -254,21 +254,21 @@ export default function RequestQuoteBlock( {
 			name        : 'address',
 			className   : `${ classes.fieldInput }`,
 			label       : 'Adress',
-			placeholder : 'Input',
+			placeholder : 'Din adress',
 		},
 		{
 			type        : 'text',
 			name        : 'postnummer',
 			className   : `${ classes.fieldInput }`,
 			label       : 'Postnummer',
-			placeholder : 'Input',
+			placeholder : 'Ditt postnummer',
 		},
 		{
 			type        : 'text',
 			name        : 'ort',
 			className   : `${ classes.fieldInput }`,
 			label       : 'Ort',
-			placeholder : 'Input',
+			placeholder : 'Din ort',
 		},
 		{
 			type        : 'select',
@@ -296,6 +296,8 @@ export default function RequestQuoteBlock( {
 	const [finalFormsFields, setFinalFormsFields] = useState<FormFields[]>( inputs );
 	
 	const currentFormFields = formsSettings?.filter( ( item ) => item?.formName === 'Request Quote form' )?.[0];
+	
+	const currentFormSelectFields = gravityForms.find( item => currentFormFields && item?.formId === +currentFormFields?.formId )
 	
 	const form = useForm( {
 		initialValues : {
@@ -335,6 +337,21 @@ export default function RequestQuoteBlock( {
 			} );
 		} );
 	}, [] );
+	
+	const selectFields = currentFormSelectFields?.formFields?.nodes?.filter( item => {
+		return finalFormsFields.some( field => field?.newName?.includes( item?.id?.toString() ) );
+	} );
+	
+	finalFormsFields.map( field => {
+		const matchingSelectField = selectFields?.find( item => field?.newName?.includes( item?.id?.toString() ) );
+		if ( matchingSelectField ) {
+			field.options = matchingSelectField.choices.map( choice => ({
+				label : choice.text,
+				value : choice.value,
+			}) );
+		}
+		return field;
+	} );
 	
 	const handleSubmit = async ( event: React.FormEvent<HTMLFormElement> ) => {
 		event.preventDefault();
@@ -419,7 +436,8 @@ export default function RequestQuoteBlock( {
 										finalFormsFields?.map( ( input, index: number ) => {
 											const isLastElement = index === finalFormsFields.length - 1;
 											return (
-												<div key={ index } className={classes.inputWrap} style={ { gridColumn : isLastElement ? '1 / -1' : 'auto' } }>
+												<div key={ index } className={ classes.inputWrap }
+												     style={ { gridColumn : isLastElement ? '1 / -1' : 'auto' } }>
 													<InputForms data={ input } form={ form }/>
 												</div>
 											)

@@ -280,7 +280,7 @@ export default function ContactUs( {
 			name        : 'name',
 			className   : `${ classes.fieldInput }`,
 			label       : 'Namn',
-			placeholder : 'Tony Lip',
+			placeholder : 'Ditt namn',
 		},
 		{
 			type        : 'text',
